@@ -1,9 +1,11 @@
+local embedding_dim = 50;
+
 // For more info on config files generally, see https://guide.allennlp.org/using-config-files
 {
     "dataset_reader" : {
         // This name needs to match the name that you used to register your dataset reader, with
         // the call to `@DatasetReader.register()`.
-        "type": "classification-tsv",
+        "type": "yelp-review-jsonl",
         // These other parameters exactly match the constructor parameters of your dataset reader class.
         "token_indexers": {
             "tokens": {
@@ -11,8 +13,8 @@
             }
         }
     },
-    "train_data_path": "/path/to/your/training/data/here.tsv",
-    "validation_data_path": "/path/to/your/validation/data/here.tsv",
+    "train_data_path": "data/train_5000.jsonl",
+    "validation_data_path": "data/dev_500.jsonl",
     "model": {
         // This name needs to match the name that you used to register your model, with
         // the call to `@Model.register()`.
@@ -22,13 +24,13 @@
             "token_embedders": {
                 "tokens": {
                     "type": "embedding",
-                    "embedding_dim": 10
+                    "embedding_dim": embedding_dim
                 }
             }
         },
         "encoder": {
             "type": "bag_of_embeddings",
-            "embedding_dim": 10
+            "embedding_dim": embedding_dim
         }
     },
     "data_loader": {
@@ -40,8 +42,10 @@
     "trainer": {
         // See http://docs.allennlp.org/master/api/training/trainer/#gradientdescenttrainer-objects
         // for more info on acceptable parameters here.
-        "optimizer": "adam",
-        "num_epochs": 5
+        "optimizer": "huggingface_adamw",
+        "num_epochs": 5,
+        // Force use of the CPU. If not passed, AllenNLP will automatically use a GPU if one is available.
+        "cuda_device": -1
     }
     // There are a few other optional parameters that can go at the top level, e.g., to configure
     // vocabulary behavior, to use a separate dataset reader for validation data, or other things.

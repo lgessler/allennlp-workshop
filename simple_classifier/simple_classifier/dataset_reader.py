@@ -1,3 +1,4 @@
+import json
 from typing import Dict, Iterable
 
 from allennlp.data import DatasetReader, Instance, Field
@@ -6,8 +7,8 @@ from allennlp.data.token_indexers import TokenIndexer, SingleIdTokenIndexer
 from allennlp.data.tokenizers import Tokenizer, WhitespaceTokenizer
 
 
-@DatasetReader.register("classification-tsv")
-class ClassificationTsvReader(DatasetReader):
+@DatasetReader.register("yelp-review-jsonl")
+class YelpReviewJsonLinesReader(DatasetReader):
     def __init__(
         self,
         tokenizer: Tokenizer = None,
@@ -33,5 +34,13 @@ class ClassificationTsvReader(DatasetReader):
     def _read(self, file_path: str) -> Iterable[Instance]:
         with open(file_path, "r") as lines:
             for line in lines:
-                text, sentiment = line.strip().split("\t")
-                yield self.text_to_instance(text, sentiment)
+                if line != "":
+                    data = json.loads(line)
+                    # The text of the yelp review.
+                    # Note we need to replace the escaped newline characters and double quotes.
+                    text = data["text"]
+                    text = text.replace("\\n", "\n")
+                    text = text.replace('\\"', '"')
+                    # The rating--these are numbers 0 through 4, make them strings "1" to "5"
+                    label = str(1 + data["label"])
+                    yield self.text_to_instance(text, label)
