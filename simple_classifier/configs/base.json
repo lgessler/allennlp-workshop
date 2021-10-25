@@ -1,0 +1,38 @@
+{
+    "dataset_reader": {
+        "type": "yelp-review-jsonl",
+        "token_indexers": {
+            "tokens": {
+                "type": "single_id"
+            }
+        }
+    },
+    "train_data_path": "data/train_5000.jsonl",
+    "validation_data_path": "data/dev_500.jsonl",
+    "model": {
+        "type": "simple_classifier",
+        "embedder": {
+            "token_embedders": {
+                "tokens": {
+                    "type": "embedding",
+                    "embedding_dim": 50 
+                }
+            }
+        },
+        "encoder": {
+            "type": "bag_of_embeddings",
+            "embedding_dim": 50
+        }
+    },
+    "data_loader": {
+        "batch_size": 8,
+        "shuffle": true
+    },
+    "trainer": {
+        "optimizer": "huggingface_adamw",
+        "num_epochs": 10,
+        "patience": 2,
+        "cuda_device": -1,
+        "callbacks": ["tensorboard"]
+    }
+}
