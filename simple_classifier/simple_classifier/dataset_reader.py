@@ -4,7 +4,7 @@ from typing import Dict, Iterable
 from allennlp.data import DatasetReader, Instance
 from allennlp.data.fields import LabelField, TextField
 from allennlp.data.token_indexers import TokenIndexer, SingleIdTokenIndexer
-from allennlp.data.tokenizers import Tokenizer, SpacyTokenizer
+from allennlp.data.tokenizers import Tokenizer, LettersDigitsTokenizer
 
 
 @DatasetReader.register("yelp-review-jsonl")
@@ -16,7 +16,7 @@ class YelpReviewJsonLinesReader(DatasetReader):
         **kwargs
     ):
         super().__init__(**kwargs)
-        self.tokenizer = tokenizer or SpacyTokenizer()
+        self.tokenizer = tokenizer or LettersDigitsTokenizer()
         self.token_indexers = token_indexers or {"tokens": SingleIdTokenIndexer()}
 
     def text_to_instance(self, text: str, label: int) -> Instance:
