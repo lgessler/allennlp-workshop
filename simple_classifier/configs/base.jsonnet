@@ -11,7 +11,8 @@ local embedding_dim = 50;
             "tokens": {
                 "type": "single_id"
             }
-        }
+        },
+        "tokenizer": "letters_digits"
     },
     "train_data_path": "data/train_5000.jsonl",
     "validation_data_path": "data/dev_500.jsonl",
