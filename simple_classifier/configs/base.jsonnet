@@ -2,7 +2,7 @@ local embedding_dim = 50;
 
 // For more info on config files generally, see https://guide.allennlp.org/using-config-files
 {
-    "dataset_reader" : {
+    "dataset_reader": {
         // This name needs to match the name that you used to register your dataset reader, with
         // the call to `@DatasetReader.register()`.
         "type": "yelp-review-jsonl",
@@ -43,9 +43,11 @@ local embedding_dim = 50;
         // See http://docs.allennlp.org/master/api/training/trainer/#gradientdescenttrainer-objects
         // for more info on acceptable parameters here.
         "optimizer": "huggingface_adamw",
-        "num_epochs": 5,
+        "num_epochs": 10,
+        "patience": 2,
         // Force use of the CPU. If not passed, AllenNLP will automatically use a GPU if one is available.
-        "cuda_device": -1
+        "cuda_device": -1,
+        "callbacks": ["tensorboard"]
     }
     // There are a few other optional parameters that can go at the top level, e.g., to configure
     // vocabulary behavior, to use a separate dataset reader for validation data, or other things.
