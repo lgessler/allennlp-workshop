@@ -1,0 +1,9 @@
+name: workshop
+dependencies:
+- python=3.9
+- jupyterlab
+- tensorboard
+- pip
+- pip:
+    - allennlp
+    - allennlp-models
