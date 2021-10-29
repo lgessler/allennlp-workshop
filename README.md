@@ -1,6 +1,7 @@
 # Introduction
 
 These are materials for an AllenNLP tutorial workshop to be held at Georgetown University on October 30, 2021.
+You can find the exercise booklet under [exercises](./exercises), and the presentation slides under [slides](./slides).
 
 # Setup
 
